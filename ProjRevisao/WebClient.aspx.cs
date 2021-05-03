@@ -3,6 +3,7 @@ using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -17,7 +18,7 @@ namespace ProjRevisao
         }
 
         protected void BtnSave_Click(object sender, EventArgs e)
-        {
+        { 
             Client client = new Client()
             {
                 Name = TxtName.Text,
@@ -60,17 +61,12 @@ namespace ProjRevisao
 
         protected void GVClient_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            var db = new ClientDB();
             int index = Convert.ToInt32(e.CommandArgument);
             var row = GVClient.Rows[index];
 
-            Client client = new Client()
-            {
-                Id = int.Parse(row.Cells[0].Text),
-                Name = row.Cells[1].Text,
-                Telephone = row.Cells[2].Text
-            };
-
-            var db = new ClientDB();
+            int idClient = int.Parse(row.Cells[0].Text);
+            Client client = db.SelectById(idClient);
 
             if (e.CommandName == "EXCLUIR")
             {
